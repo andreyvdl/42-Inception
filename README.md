@@ -20,9 +20,9 @@ wpPHP["wordpress
   mandatory"]
 wpDB[("wordpress
   database")]
-outCont["host db
-  container"]
-outDB[("host
+outCont["mariadb
+  mandatory"]
+outDB[("mariadb
   database")]
 
 net <==port 443==> nginxMan
