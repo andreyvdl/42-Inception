@@ -1,0 +1,40 @@
+body, html {
+    padding:  0;
+    font-family: fantasy;
+    background: linear-gradient(-60deg, red, orange, yellow, green, blue, indigo, violet, red);
+    height:  100vh;
+    margin:  0;
+    background-size:  100%  100%;
+}
+
+.background {
+    height:  100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.text {
+    position: absolute;
+    top:  50%;
+    left:  50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+img {
+    position: relative;
+    left: 50%;
+    top: 60%
+}
+
+h1 {
+    font-size:  50px;
+    text-shadow:  2px  2px  4px #000;
+}
+
+h2 {
+    font-size:  30px;
+    text-shadow:  2px  2px  4px #000;
+}
