@@ -10,7 +10,7 @@
 title: Inception flow
 ---
 
-flowchart TB
+flowchart LR
 
 net(("internet"))
 nginxMan["nginx
@@ -24,5 +24,16 @@ outCont["host db
 outDB[("host
   database")]
 
+net <---> nginxMan
+
+subgraph HOST PC
+  subgraph DOCKER NETWORK
+    outCont <---> wpPHP
+    wpPHP <---> nginxMan
+  end
+  outCont <---> outDB
+  wpPHP <---> wpDB
+  wpDB <---> nginxMan
+end
 
 ```
