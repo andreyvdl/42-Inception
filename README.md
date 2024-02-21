@@ -23,21 +23,21 @@ net(("internet"))
 nginxMan["nginx mandatory"]
 wpPHP["wordpress mandatory"]
 wpDB[("wordpress database")]
-outCont["mariadb mandatory"]
-outDB[("mariadb database")]
+mariaCont["mariadb mandatory"]
+mariaDB[("mariadb database")]
 redis["redis"]
 FTP["FTP"]
 STATIC["static website"]
 ADMINER["adminer"]
 EXTRA["extra service"]
 
-net <==port 443==> nginxMan
+nginxMan <==port 443==> net
 net <==> STATIC
 subgraph HP["HOST PC"]
   subgraph DN["DOCKER NETWORK"]
-    outCont <==port 3306==> wpPHP
+    mariaCont <==port 3306==> wpPHP
     wpPHP <==port 9000==> nginxMan
-    redis <==> wpPHP
+    wpPHP <==> redis
     subgraph B1["BONUS"]
       ADMINER
       redis
@@ -46,7 +46,7 @@ subgraph HP["HOST PC"]
       EXTRA
     end
   end
-  outCont <==> outDB
+  mariaCont <==> mariaDB
   wpPHP <==> wpDB
   wpDB <==> nginxMan
   wpDB <==> FTP
@@ -59,8 +59,8 @@ style net fill:#aaaaaa,color:#000
 style nginxMan fill:#009639
 style wpPHP fill:#21759B
 style wpDB fill:#0E4268
-style outCont fill:#003545
-style outDB fill:#000212
+style mariaCont fill:#003545
+style mariaDB fill:#000212
 style B1 fill:#FFFF00,color:#000
 linkStyle 0,2,3 color:#F00
 ```
