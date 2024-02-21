@@ -40,5 +40,10 @@ end
 style DN fill:#2496ED
 style HP fill:#444444
 style net fill:#aaaaaa,color:#000
+style nginxMan fill:#009639
+style wpPHP fill:#21759B
+style wpDB fill:#0E4268
+style outCont fill:#003545
+style outDB fill:#000212
 linkStyle 0,1,2 color:#000 
 ```
