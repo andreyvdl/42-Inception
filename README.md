@@ -31,12 +31,12 @@ STATIC["static website"]
 ADMINER["adminer"]
 EXTRA["extra service"]
 
-nginxMan <==port 443==> net
+nginxMan <==443===> net
 net <==> STATIC
 subgraph HP["HOST PC"]
   subgraph DN["DOCKER NETWORK"]
-    mariaCont <==port 3306==> wpPHP
-    wpPHP <==port 9000==> nginxMan
+    mariaCont <==3306==> wpPHP
+    wpPHP <==9000==> nginxMan
     wpPHP <==> redis
     subgraph B1["BONUS"]
       ADMINER
@@ -54,13 +54,17 @@ end
 
 
 style DN fill:#2496ED,color:#000
-style HP fill:#444444
+style HP fill:#888888
 style net fill:#aaaaaa,color:#000
 style nginxMan fill:#009639
 style wpPHP fill:#21759B
 style wpDB fill:#0E4268
 style mariaCont fill:#003545
 style mariaDB fill:#000212
+style redis fill:#DC382D
+style ADMINER fill:#34567C
+style FTP fill:#4285F4
+style STATIC fill:#E34F26
 style B1 fill:#FFFF00,color:#000
-linkStyle 0,2,3 color:#F00
+linkStyle 0,2,3 color:#000
 ```
