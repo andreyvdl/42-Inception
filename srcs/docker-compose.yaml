@@ -1,1 +1,44 @@
-
+version: '3'
+services:
+  # main-nginx:
+  #   image: inception-nginx:latest
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 443:443
+  #   build:
+  #     context: requirements/nginx
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - main-wp
+  #     - main-db
+  # main-wp:
+  #   image: inception-wp:latest
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 9000:9000
+  #   build:
+  #     context: requirements/wordpress
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - main-db
+  #   volumes:
+  #     - /home/adantas-/data/wp-db:foobar
+  # main-db:
+  #   image: inception-mdb:latest
+  #   env_file:
+  #   ports:
+  #     - 3306:3306
+  #   build:
+  #     context: requirements/mariadb
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - /home/adantas-/data/mariadb-db:foobar
+  static-web:
+    image: bonus-static-website:latest
+    ports:
+      - 2000:4000
+    build:
+      context: requirements/bonus/static
+      dockerfile: Dockerfile
