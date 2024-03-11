@@ -35,6 +35,9 @@ RUN wget https://wordpress.org/latest.tar.gz && \
   rm latest.tar.gz && \
   mv wordpress /var/www/html
 
+RUN chown -R www-data:www-data /var/www/html \
+  && chmod -R 755 /var/www/html
+
 EXPOSE 9000
 ENTRYPOINT [ "php-fpm7.4" ]
 CMD ["-F"]
