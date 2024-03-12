@@ -17,13 +17,14 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg \
 
 # install PHP
 RUN apt update && apt install -y \
-  php7.4-fpm \
-  php7.4-mysql \
-  php7.4-gd \
-  php7.4-xml \
-  php7.4-mbstring \
-  php7.4-curl \
-  php7.4-zip \
+  mariadb-client \
+  php-fpm \
+  php-mysql \
+  php-gd \
+  php-xml \
+  php-mbstring \
+  php-curl \
+  php-zip \
   && apt clean
 
 RUN mkdir -p /var/www/ && \
@@ -35,9 +36,7 @@ RUN wget https://wordpress.org/latest.tar.gz && \
   rm latest.tar.gz && \
   mv wordpress /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html \
-  && chmod -R 755 /var/www/html
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
-EXPOSE 9000
-ENTRYPOINT [ "php-fpm7.4" ]
+ENTRYPOINT [ "php-fpm8.3" ]
 CMD ["-F"]

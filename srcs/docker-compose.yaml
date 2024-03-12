@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   main-nginx:
     image: inception-nginx:latest
     env_file:
@@ -12,6 +13,7 @@ services:
     depends_on:
       - main-wp
       # - main-db
+
   main-wp:
     image: inception-wp:latest
     env_file:
@@ -21,8 +23,9 @@ services:
       dockerfile: Dockerfile
     # depends_on:
     #   - main-db
-    # volumes:
-    #   - /home/adantas-/data/wp-db:foobar
+    volumes:
+      - /home/adantas-/wp-db:/var/www/html
+
   # main-db:
   #   image: inception-mdb:latest
   #   env_file:
@@ -34,6 +37,7 @@ services:
   #     dockerfile: Dockerfile
     # volumes:
     #   - /home/adantas-/data/mariadb-db:foobar
+
   bonus-static:
     image: inception-static:latest
     ports:
