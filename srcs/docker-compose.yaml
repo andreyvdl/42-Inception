@@ -11,32 +11,31 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - main-wp
-      - main-db
+      # - main-db
   main-wp:
     image: inception-wp:latest
     env_file:
       - .env
-    ports:
-      - 9000:9000
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
-    depends_on:
-      - main-db
+    # depends_on:
+    #   - main-db
     # volumes:
     #   - /home/adantas-/data/wp-db:foobar
-  main-db:
-    image: inception-mdb:latest
-    env_file:
-    ports:
-      - 3306:3306
-    build:
-      context: requirements/mariadb
-      dockerfile: Dockerfile
+  # main-db:
+  #   image: inception-mdb:latest
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 3306:3306
+  #   build:
+  #     context: requirements/mariadb
+  #     dockerfile: Dockerfile
     # volumes:
     #   - /home/adantas-/data/mariadb-db:foobar
-  static-web:
-    image: bonus-static-website:latest
+  bonus-static:
+    image: inception-static:latest
     ports:
       - 4000:4000
     build:
