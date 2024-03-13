@@ -7,4 +7,5 @@ RUN apt update && apt install -y \
   && apt clean
 
 RUN service mariadb start
-CMD [ "mysqld_safe" ]
+
+ENTRYPOINT [ "mysqld_safe" ]

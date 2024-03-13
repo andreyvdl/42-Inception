@@ -1,4 +1,18 @@
 version: '3'
+
+volumes:
+  mdb:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/adantas-/mariadb-db
+
+  wpdb:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/adantas-/wordpress-db
+
 services:
 
   main-nginx:
