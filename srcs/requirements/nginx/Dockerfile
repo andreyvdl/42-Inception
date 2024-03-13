@@ -14,4 +14,3 @@ COPY ./default /etc/nginx/sites-available/default
 
 ENTRYPOINT [ "nginx" ]
 CMD [ "-g", "daemon off;" ]
-

@@ -7,6 +7,7 @@ RUN apt update && apt install -y \
   ca-certificates \
   lsb-release \
   apt-transport-https \
+  mariadb-client \
   && apt clean
 
 # Pull PHP package
@@ -17,7 +18,6 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg \
 
 # install PHP
 RUN apt update && apt install -y \
-  mariadb-client \
   php-fpm \
   php-mysql \
   php-gd \
