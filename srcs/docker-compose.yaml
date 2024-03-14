@@ -47,8 +47,8 @@ services:
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    # volumes:
-    #   - /home/adantas-/mariadb-db:foobar
+    volumes:
+      - mdb:/var/lib/mysql
 
   bonus-static:
     image: inception-static:latest
