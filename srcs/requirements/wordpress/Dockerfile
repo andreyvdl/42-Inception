@@ -1,6 +1,6 @@
-FROM debian:oldstable
+FROM  debian:oldstable
 
-# PHP dependencies
+# PHP and WP dependencies
 RUN apt update && apt install -y \
   wget \
   gnupg2 \
@@ -8,12 +8,15 @@ RUN apt update && apt install -y \
   lsb-release \
   apt-transport-https \
   mariadb-client \
-  && apt clean
+  && \
+  apt clean
 
 # Pull PHP package
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg \
-  https://packages.sury.org/php/apt.gpg && \
-  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | \
+  https://packages.sury.org/php/apt.gpg \
+  && \
+  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" \
+  | \
   tee /etc/apt/sources.list.d/php.list
 
 # install PHP
@@ -25,18 +28,51 @@ RUN apt update && apt install -y \
   php-mbstring \
   php-curl \
   php-zip \
-  && apt clean
+  && \
+  apt clean
 
-RUN mkdir -p /var/www/ && \
-  mkdir -p /run/php && chown www-data:www-data /run/php
+# configure enviroment
+RUN mkdir -p /var/www/ \
+  && \
+  mkdir -p /run/php \
+  && \
+  chown www-data:www-data /run/php \
+  && \
+  ln -s php-fpm* /usr/bin/php-fpm
 
 # Download and install WordPress
-RUN wget https://wordpress.org/latest.tar.gz && \
-  tar -xzf latest.tar.gz && \
-  rm latest.tar.gz && \
+RUN wget https://wordpress.org/latest.tar.gz \
+  && \
+  tar -xzf latest.tar.gz \
+  && \
+  rm latest.tar.gz \
+  && \
   mv wordpress /var/www/html
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+# configure wordpress
+COPY ./conf/wp-config.php /var/www/html/wp-config.php
+COPY ./www.conf           /etc/php/*/fpm/pool.d/www.conf
 
-ENTRYPOINT [ "php-fpm8.3" ]
+# download wordpress-cli
+RUN wget -O /usr/bin/wp \
+  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+# configure wordpress via cli instead of browser
+RUN rm -fr /var/www/html/wp-config-sample.php \
+  && \
+  wp core install --allow-root \
+  --path=/var/www/html \
+  --title="42Project InceptionHELL" \
+  --url=${SERVER_NAME} \
+  --admin_user=${ROOT_USER} \
+  --admin_password=${ROOT_PW} \
+  --admin_email=${ROOT_MAIL} \
+  && \
+  wp user create --allow-root \
+  --path=/var/www/html \
+  "${WP_USER}" "${WP_MAIL}" \
+  --user_pass=${WP_PW} \
+  --role="author"
+
+ENTRYPOINT [ "php-fpm" ]
 CMD ["-F"]

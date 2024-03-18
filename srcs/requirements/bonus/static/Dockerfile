@@ -3,7 +3,8 @@ FROM debian:oldstable
 # install nginx
 RUN apt update && apt install -y nginx \
   openssl \
-  && apt clean
+  && \
+  apt clean
 
 # setup ssl
 RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:4096 \
