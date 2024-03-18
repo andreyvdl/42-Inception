@@ -1,5 +1,6 @@
 version: '3'
 
+# volume config
 volumes:
   mdb:
     driver_opts:
@@ -12,7 +13,9 @@ volumes:
       o: bind
       type: none
       device: /home/adantas-/wordpress-db
+##############################################################################
 
+# services
 services:
 
   main-nginx:
@@ -20,7 +23,7 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - 443:443
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
@@ -37,8 +40,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - main-db
-    # volumes:
-    #   - /home/adantas-/wp-db:/var/www/html
+    volumes:
+      - wpdb:/var/www/html
 
   main-db:
     image: inception-mdb:latest
