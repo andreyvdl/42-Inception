@@ -47,9 +47,17 @@ services:
     image: inception-mdb:latest
     env_file:
       - .env
+    environment:
+      - WP_DB
+      - WP_USER
+      - WP_PW
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
+      args:
+        - WP_DB=${WP_DB}
+        - WP_USER=${WP_USER}
+        - WP_PW=${WP_PW}
     volumes:
       - mdb:/var/lib/mysql
 

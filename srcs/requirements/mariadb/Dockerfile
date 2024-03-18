@@ -1,5 +1,9 @@
 FROM debian:oldstable
 
+# ARG WP_DB
+# ARG WP_USER
+# ARG WP_PW
+
 # install mariadb
 RUN apt update && apt install -y \
   mariadb-server \
