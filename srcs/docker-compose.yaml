@@ -13,13 +13,24 @@ volumes:
       o: bind
       type: none
       device: /home/adantas-/wordpress-db
+
 ##############################################################################
+
+# network config
+
+networks:
+  inception_network:
+    name: inception_network
+    driver: bridge
+
+###############################################################################
 
 # services
 services:
 
   main-nginx:
     image: inception-nginx:latest
+    container_name: inception-nginx
     env_file:
       - .env
     environment:
@@ -33,10 +44,12 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - main-wp
-      - main-db
+    networks:
+      - inception_network
 
   main-wp:
     image: inception-wp:latest
+    container_name: inception-wp
     env_file:
       - .env
     environment:
@@ -62,9 +75,12 @@ services:
       - main-db
     volumes:
       - wpdb:/var/www/html
+    networks:
+      - inception_network
 
   main-db:
     image: inception-mdb:latest
+    container_name: inception-mdb
     env_file:
       - .env
     environment:
@@ -80,11 +96,16 @@ services:
         - WP_PW=${WP_PW}
     volumes:
       - mdb:/var/lib/mysql
+    networks:
+      - inception_network
 
   bonus-static:
     image: inception-static:latest
+    container_name: inception-static
     ports:
       - 4000:4000
     build:
       context: requirements/bonus/static
       dockerfile: Dockerfile
+    networks:
+      - inception_network
