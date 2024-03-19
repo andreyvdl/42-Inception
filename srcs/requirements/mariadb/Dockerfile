@@ -1,8 +1,8 @@
 FROM debian:oldstable
 
-# ARG WP_DB
-# ARG WP_USER
-# ARG WP_PW
+ARG WP_DB
+ARG WP_USER
+ARG WP_PW
 
 # install mariadb
 RUN apt update && apt install -y \
@@ -13,7 +13,7 @@ RUN apt update && apt install -y \
 
 # configure
 COPY ./conf/my.cnf        /etc/mysql/my.cnf
-COPY ./tools/db-script.sh /tmp/db-script.sh
+# COPY ./tools/db-script.sh /tmp/db-script.sh
 
 # start database
 RUN service mariadb start \
@@ -29,3 +29,4 @@ FLUSH PRIVILEGES;" \
 # RUN chmod 777 /tmp/db-script.sh && bash /tmp/db-script.sh
 
 ENTRYPOINT [ "mysqld_safe" ]
+# CMD [ "mysqld_safe" ]

@@ -1,5 +1,7 @@
 FROM debian:oldstable
 
+ARG SERVER_NAME
+
 # install nginx and ssl
 RUN apt update && apt install -y nginx \
   openssl\

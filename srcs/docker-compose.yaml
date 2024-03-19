@@ -22,9 +22,13 @@ services:
     image: inception-nginx:latest
     env_file:
       - .env
+    environment:
+      - SERVER_NAME
     ports:
       - 443:443
     build:
+      args:
+        - SERVER_NAME=${SERVER_NAME}
       context: requirements/nginx
       dockerfile: Dockerfile
     depends_on:
@@ -35,7 +39,23 @@ services:
     image: inception-wp:latest
     env_file:
       - .env
+    environment:
+      - SERVER_NAME
+      - ROOT_USER
+      - ROOT_PW
+      - ROOT_MAIL
+      - WP_USER
+      - WP_MAIL
+      - WP_PW
     build:
+      args:
+        - WP_USER=${WP_USER}
+        - WP_PW=${WP_PW}
+        - WP_MAIL=${WP_MAIL}
+        - ROOT_MAIL=${ROOT_MAIL}
+        - ROOT_PW=${ROOT_PW}
+        - ROOT_USER=${ROOT_USER}
+        - SERVER_NAME=${SERVER_NAME}
       context: requirements/wordpress
       dockerfile: Dockerfile
     depends_on:
