@@ -59,7 +59,7 @@ RUN wget https://wordpress.org/latest.tar.gz \
 
 # configure wordpress
 COPY ./conf/wp-config.php /var/www/html/wp-config.php
-COPY ./conf/www.conf      /etc/php/*/fpm/pool.d/www.conf
+COPY ./conf/www.conf      /etc/php/8.3/fpm/pool.d/www.conf
 
 # download wordpress-cli
 RUN wget -O /usr/bin/wp \

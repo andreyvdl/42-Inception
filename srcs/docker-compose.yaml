@@ -1,18 +1,18 @@
 version: '3'
 
 # volume config
-volumes:
-  mdb:
-    driver_opts:
-      o: bind
-      type: none
-      device: /home/adantas-/mariadb-db
-
-  wpdb:
-    driver_opts:
-      o: bind
-      type: none
-      device: /home/adantas-/wordpress-db
+# volumes:
+#   mdb:
+#     driver_opts:
+#       o: bind
+#       type: none
+#       device: /home/adantas-/mariadb-db
+#
+#   wpdb:
+#     driver_opts:
+#       o: bind
+#       type: none
+#       device: /home/adantas-/wordpress-db
 
 ##############################################################################
 
@@ -73,8 +73,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - main-db
-    volumes:
-      - wpdb:/var/www/html
+    # volumes:
+    #   - wpdb:/var/www/html
     networks:
       - inception_network
 
@@ -94,8 +94,8 @@ services:
         - WP_DB=${WP_DB}
         - WP_USER=${WP_USER}
         - WP_PW=${WP_PW}
-    volumes:
-      - mdb:/var/lib/mysql
+    # volumes:
+    #   - mdb:/var/lib/mysql
     networks:
       - inception_network
 

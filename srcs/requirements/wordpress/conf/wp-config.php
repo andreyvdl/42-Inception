@@ -29,7 +29,7 @@ define( 'DB_USER', getenv("WP_USER") );
 define( 'DB_PASSWORD', getenv("WP_PW") );
 
 /** Database hostname */
-define( 'DB_HOST', "mariadb" );
+define( 'DB_HOST', "main-db" );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
