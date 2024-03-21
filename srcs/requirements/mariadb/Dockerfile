@@ -19,4 +19,4 @@ RUN chmod +x /tmp/script.sh
 
 RUN bash /tmp/script.sh
 
-CMD ["mysqld_safe"]
+ENTRYPOINT ["mysqld_safe"]

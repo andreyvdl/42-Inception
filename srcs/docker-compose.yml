@@ -1,6 +1,7 @@
 version: '3'
 
 # volume config
+
 volumes:
   mdb:
     driver_opts:
@@ -14,7 +15,7 @@ volumes:
       type: none
       device: /home/adantas-/data/wordpress-db
 
-##############################################################################
+###############################################################################
 
 # network config
 
@@ -26,11 +27,12 @@ networks:
 ###############################################################################
 
 # services
+
 services:
 
-  main-nginx:
-    image: inception-nginx:latest
-    container_name: inception-nginx
+  nginx:
+    image: nginx:42project
+    container_name: nginx
     env_file:
       - .env
     environment:
@@ -43,16 +45,16 @@ services:
       context: requirements/nginx
       dockerfile: Dockerfile
     depends_on:
-      - main-wp
+      - wordpress
     volumes:
       - wpdb:/var/www/html
     networks:
       - inception_network
     restart: always
 
-  main-wp:
-    image: inception-wp:latest
-    container_name: inception-wp
+  wordpress:
+    image: wordpress:42project
+    container_name: wordpress
     env_file:
       - .env
     environment:
@@ -77,16 +79,16 @@ services:
       context: requirements/wordpress
       dockerfile: Dockerfile
     depends_on:
-      - main-db
+      - mariadb
     volumes:
       - wpdb:/var/www/html
     networks:
       - inception_network
     restart: always
 
-  main-db:
-    image: inception-mdb:latest
-    container_name: inception-mdb
+  mariadb:
+    image: mariadb:42project
+    container_name: mariadb
     env_file:
       - .env
     environment:
@@ -106,14 +108,32 @@ services:
       - inception_network
     restart: always
 
-  bonus-static:
-    image: inception-static:latest
-    container_name: inception-static
+###############################################################################
+
+# BONUS
+
+  static-website:
+    image: static-website:42project
+    container_name: static-website
     ports:
-      - 4000:4000
+      - 128:128
     build:
       context: requirements/bonus/static
       dockerfile: Dockerfile
     networks:
       - inception_network
     restart: always
+
+  extra:
+    image: extra:42project
+    container_name: extra
+    ports:
+      - 64:64
+    build:
+      context: requirements/bonus/extra
+      dockerfile: Dockerfile
+    networks:
+      - inception_network
+    restart: always
+
+#####################################################################    
