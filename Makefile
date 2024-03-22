@@ -23,16 +23,16 @@ config:
 .PHONY: config
 
 up:
-	@if [ -z "$$(docker compose -f ${COMPOSE} ps -q 2> /dev/null)" ]; then \
-		docker compose -f ${COMPOSE} up; \
+	@if [ -z "$$(docker-compose -f ${COMPOSE} ps 2> /dev/null | grep Up)" ]; then \
+		docker-compose -f ${COMPOSE} up; \
 	else \
-		echo "Containers already up!"; \
+		echo "There is containers up, please KILL them :)"; \
 	fi
 .PHONY: up
 
 down:
-	@if [ -n "$$(docker compose -f ${COMPOSE} images -q 2> /dev/null)" ]; then \
-		docker compose -f ${COMPOSE} down; \
+	@if [ -n "$$(docker-compose -f ${COMPOSE} images -q 2> /dev/null)" ]; then \
+		docker-compose -f ${COMPOSE} down; \
 	else \
 		echo "No images to delete!"; \
 	fi
@@ -46,11 +46,8 @@ prune: down
 		docker volume rm $(shell docker volume ls -q); \
 	fi
 	@sudo rm -fr ${VOLUME_PATH}/*
+	@docker system prune -f -a
 .PHONY: prune
 
-rebuild:
-	@docker compose -f ${COMPOSE} build --no-cache
-.PHONY: rebuild
-
-re: down prune rebuild all
+re: prune all
 .PHONY: re

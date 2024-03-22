@@ -2,6 +2,7 @@
 
 if [ -f /var/www/html/wp-config-sample.php ]; then
 	rm -rf /var/www/html/wp-config-sample.php
+	rm -fr /var/www/html/index.html
 	wp core install --allow-root \
 		--path=/var/www/html \
 		--title="42SP InceptionHELL" \
@@ -17,4 +18,4 @@ if [ -f /var/www/html/wp-config-sample.php ]; then
 		--role='author'
 fi
 
-exec php-fpm7.4 -F
+php-fpm7.4 -F

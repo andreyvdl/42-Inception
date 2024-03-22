@@ -9,29 +9,39 @@ ARG WP_MAIL
 ARG WP_PW
 ARG WP_DB
 
-WORKDIR /var/www/html/
+# WORKDIR /var/www/html/
 
-RUN apt update && apt upgrade -y && \
-	apt install -y \
+# install dependencies and maria client
+RUN apt update && apt install -y \
 	php7.4 \
 	php-fpm \
 	php-mysql \
 	mariadb-client \
 	wordpress \
-	wget && \
-	rm -rf /var/lib/apt/lists/*
+	wget \
+	&& \
+	apt clean
 
-RUN wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x /usr/local/bin/wp
-RUN wp core download --allow-root --path=/var/www/html
+# download CLI
+RUN wget -O /usr/bin/wp \
+	https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
+# change permission and install wordpress files
+RUN chmod 777 /usr/bin/wp \
+	&& \
+	wp core download --allow-root --path=/var/www/html
+
+# IDK, it wasn't creating this folder, chatGPT said to create myself
+# and worked
 RUN mkdir /run/php
 
-COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY conf/wp-config.php /var/www/html/wp-config.php
+# copy config and script
+COPY ./conf/www.conf                       /etc/php/7.4/fpm/pool.d/www.conf
+COPY ./conf/wp-config.php                  /var/www/html/wp-config.php
 COPY ./tools/init-only-if-mariadb-is-up.sh /tmp/script.sh
 
-RUN chmod +x /tmp/script.sh
+# change permission
+RUN chmod 777 /tmp/script.sh
 
-ENTRYPOINT ["bash"]
-CMD [ "/tmp/script.sh"]
+ENTRYPOINT [ "bash" ]
+CMD [ "/tmp/script.sh" ]
