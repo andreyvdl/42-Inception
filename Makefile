@@ -39,14 +39,11 @@ down:
 .PHONY: down
 
 prune: down
-	@if [ -n "$$(docker images -qa)" ]; then \
-		docker rmi -f $(shell docker images -qa); \
-	fi
 	@if [ -n "$$(docker volume ls -q)" ]; then \
 		docker volume rm $(shell docker volume ls -q); \
 	fi
 	@sudo rm -fr ${VOLUME_PATH}/*
-	@docker system prune -f -a
+	@docker system prune -f -a # aparentemente a flag --volumes n funciona
 .PHONY: prune
 
 re: prune all

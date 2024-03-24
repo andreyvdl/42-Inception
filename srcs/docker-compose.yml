@@ -114,8 +114,8 @@ services:
 
 # BONUS
 
-  static-website:
-    image: static-website:42project
+  nginx-bonus:
+    image: nginx-bonus:42project
     container_name: static-website
     ports:
       - 128:128
@@ -126,11 +126,12 @@ services:
       - inception_network
     restart: always
 
-  extra:
-    image: extra:42project
+  npm:
+    image: npm:42project
     container_name: extra
     ports:
       - 64:64
+      - 256:256
     build:
       context: requirements/bonus/extra
       dockerfile: Dockerfile
