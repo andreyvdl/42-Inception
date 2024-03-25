@@ -1,5 +1,6 @@
 VOLUME_PATH=/home/adantas-/data
 COMPOSE=./srcs/docker-compose.yml
+DOT_ENV=https://gist.githubusercontent.com/andreyvdl/4ce7f3226bb701cbeac55469883ce7bb/raw/c8a0159ce36805246a5715cc1a4eb0294aec8d23/.env
 
 all: permission config up
 .PHONY: all
@@ -10,6 +11,9 @@ permission:
 .PHONY: permission
 
 config:
+	@if [ ! -f ./srcs/.env ]; then \
+		wget -O ./srcs/.env ${DOT_ENV}; \
+	fi
 	@sudo chmod 666 /etc/hosts
 	@if ! grep -q 'adantas-' /etc/hosts; then \
 		sudo echo '127.0.0.0 adantas-.42.fr' >> /etc/hosts; \
